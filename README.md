@@ -1,4 +1,4 @@
-# AWS CloudWatch to Opsgenie Integration
+# Amazon CloudWatch to Opsgenie Integration
 
 The included CloudFormation template allows you to integrate CloudWatch with Opsgenie via a secure and encrypted configuration using AWS Secrets Manager. The infrastructure incorporates an SNS topic and subscription, a CloudWatch alarm, and a metric filter to detect and respond to specified log events.
 
