@@ -26,14 +26,16 @@ To use and customize this CloudFormation template for your own use:
 
 Just fork this repository. Once the repository has been forked, you can clone your fork to your local machine using:
 
-git clone https://github.com/username/cloudwatch-opsgenie-integration.git
+```bash
+git clone https://github.com/<username>/amazon-cloudwatch-opsgenie-integration.git
+```
 
-Make sure to replace `username` with your actual GitHub username.
+Make sure to replace `<username>` with your actual GitHub username.
 
 Navigate to your cloned repository:
 
 ```bash
-cd cloudwatch-opsgenie-integration
+cd amazon-cloudwatch-opsgenie-integration
 ```
 
 Create a new branch to make your changes:
@@ -61,7 +63,7 @@ From this point on, you can proceed with deploying the CloudFormation stack with
 Navigate to the repository directory:
 
 ```bash
-cd cloudwatch-opsgenie-integration
+cd amazon-cloudwatch-opsgenie-integration
 ```
 
 Review and update the CloudFormation template file (`template.yml`) as per your requirements for log monitoring and alerting.
