@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for integrating AWS CloudWatch with Opsgenie using AWS Secrets Manager for secure endpoint storage.
+
+Parameters:
+  SecretEndpointUrlName:
+    Type: String
+    Description: The name of the secret in AWS Secrets Manager containing the Opsgenie API endpoint URL.
+    AllowedPattern: '^[a-zA-Z0-9/_+=.@-]+$'
+  LogGroupName:
+    Type: String
+    Description: The name of the CloudWatch Logs log group to monitor.
+    Default: 'Application/LogGroupName'
+  MetricNamespace:
+    Type: String
+    Description: The namespace for the metric data.
+    Default: 'Application/Metrics'
+  MetricName:
+    Type: String
+    Description: The name of the metric.
+    Default: 'ErrorCount'
+  MetricValue:
+    Type: Number
+    Description: The value of the metric.
+    Default: 1
+    AllowedPattern: '^[0-9]+$'
+  FilterPattern:
+    Type: String
+    Description: The filter pattern to use for matching log events.
+    Default: 'ERROR'
+  AlarmName:
+    Type: String
+    Description: A name for the CloudWatch Alarm.
+    Default: 'GenericErrorAlarm'
+
+Resources:
+  OpsgenieSNSTopic:
+    Type: 'AWS::SNS::Topic'
+
+  OpsgenieSNSTopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: 'SNS:Publish'
+            Effect: Allow
+            Principal:
+              Service:
+                - cloudwatch.amazonaws.com
+            Resource: !Ref OpsgenieSNSTopic
+            Sid: '0'
+        Version: 2012-10-17
+      Topics:
+        - !Ref OpsgenieSNSTopic
+
+  OpsgenieSubscription:
+    Type: 'AWS::SNS::Subscription'
+    Properties:
+      Protocol: https
+      Endpoint: !Sub '{{resolve:secretsmanager:${SecretEndpointUrlName}:SecretString}}'
+      TopicArn: !Ref OpsgenieSNSTopic
+
+  LogMetricFilter:
+    Type: 'AWS::Logs::MetricFilter'
+    Properties:
+      LogGroupName: !Ref LogGroupName
+      FilterPattern: !Ref FilterPattern
+      MetricTransformations:
+        - MetricValue: !Ref MetricValue
+          MetricNamespace: !Ref MetricNamespace
+          MetricName: !Ref MetricName
+
+  Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Ref AlarmName
+      AlarmDescription: 'Alarm when the specified pattern is matched in the log group'
+      MetricName: !Ref MetricName
+      Namespace: !Ref MetricNamespace
+      Statistic: 'Sum'
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: 'GreaterThanOrEqualToThreshold'
+      AlarmActions:
+        - !Ref OpsgenieSNSTopic
+      OKActions:
+        - !Ref OpsgenieSNSTopic
+      InsufficientDataActions:
+        - !Ref OpsgenieSNSTopic

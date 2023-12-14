@@ -1,0 +1,30 @@
+[
+    {
+        "ParameterKey": "SecretEndpointUrlName",
+        "ParameterValue": "opsgenie/ApiEndpointUrl"
+     },
+     {
+        "ParameterKey": "LogGroupName",
+        "ParameterValue": "MyAppLogs"
+    },
+    {
+        "ParameterKey": "MetricNamespace",
+        "ParameterValue": "MyApp/Metrics"
+    },
+    {
+        "ParameterKey": "MetricName",
+        "ParameterValue": "ErrorCount"
+    },
+    {
+        "ParameterKey": "MetricValue",
+        "ParameterValue": 1
+    },
+    {
+        "ParameterKey": "FilterPattern",
+        "ParameterValue": "ERROR"
+    },
+    {
+        "ParameterKey": "AlarmName",
+        "ParameterValue": "MyAppErrorAlarm"
+    }
+]
