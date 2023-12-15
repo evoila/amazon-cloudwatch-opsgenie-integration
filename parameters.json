@@ -2,8 +2,8 @@
     {
         "ParameterKey": "SecretEndpointUrlName",
         "ParameterValue": "opsgenie/ApiEndpointUrl"
-     },
-     {
+    },
+    {
         "ParameterKey": "LogGroupName",
         "ParameterValue": "MyAppLogs"
     },
@@ -21,7 +21,7 @@
     },
     {
         "ParameterKey": "FilterPattern",
-        "ParameterValue": "ERROR"
+        "ParameterValue": "\"[ERROR]\""
     },
     {
         "ParameterKey": "AlarmName",
