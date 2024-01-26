@@ -22,7 +22,6 @@ Parameters:
     Type: Number
     Description: The value of the metric.
     Default: 1
-    AllowedPattern: '^[0-9]+$'
   FilterPattern:
     Type: String
     Description: The filter pattern to use for matching log events.
