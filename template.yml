@@ -4,8 +4,8 @@ Description: CloudFormation template for integrating AWS CloudWatch with Opsgeni
 Parameters:
   SecretEndpointUrlName:
     Type: String
-    Description: The name of the secret in AWS Secrets Manager containing the Opsgenie API endpoint URL.
-    AllowedPattern: '^[a-zA-Z0-9/_+=.@-]+$'
+    Description: The name of the secret in AWS Secrets Manager contains the Opsgenie API endpoint URL.
+    AllowedPattern: AllowedPattern: '^(https?:\/\/)?[a-zA-Z0-9\/_+=:.@-]+$'
   LogGroupName:
     Type: String
     Description: The name of the CloudWatch Logs log group to monitor.
