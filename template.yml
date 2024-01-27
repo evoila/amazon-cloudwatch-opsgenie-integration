@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: CloudFormation template for integrating AWS CloudWatch with Opsgenie using AWS Secrets Manager for secure endpoint storage.
 
 Parameters:
-  SecretEndpointUrlName:
+  OpsgenieApiEndpointSecretName:
     Type: String
     Description: The name of the secret in AWS Secrets Manager contains the Opsgenie API endpoint URL.
-    AllowedPattern: AllowedPattern: '^(https?:\/\/)?[a-zA-Z0-9\/_+=:.@-]+$'
+    AllowedPattern: '^[a-zA-Z0-9/_+=.@-]+$'
   LogGroupName:
     Type: String
     Description: The name of the CloudWatch Logs log group to monitor.
@@ -55,7 +55,7 @@ Resources:
     Type: 'AWS::SNS::Subscription'
     Properties:
       Protocol: https
-      Endpoint: !Sub '{{resolve:secretsmanager:${SecretEndpointUrlName}:SecretString}}'
+      Endpoint: !Sub '{{resolve:secretsmanager:${OpsgenieApiEndpointSecretName}:SecretString}}'
       TopicArn: !Ref OpsgenieSNSTopic
 
   LogMetricFilter:
